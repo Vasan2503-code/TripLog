@@ -7,7 +7,7 @@ const tripRoutes = require("./routes/TripRoutes");
 const chatController = require("./controller/ChatController");
 const locationRoutes = require("./routes/LocationRoutes");
 const cloudRoutes = require('./routes/CloudRoutes');
-const AIRoutes = require('./routes/AIRoutes');
+const AdvancedAIRoutes = require('./routes/AdvancedAIRoutes');
 
 const http = require("http");
 const { Server } = require("socket.io");
@@ -41,7 +41,7 @@ app.use('/verify', verify);
 app.use('/trip', tripRoutes);
 app.use('/location', locationRoutes);
 app.use('/upload-image', cloudRoutes);
-app.use('/location-suggestions', AIRoutes);
+app.use('/location-suggestions', AdvancedAIRoutes);
 
 server.listen(process.env.PORT, () => {
     console.log("Server Listening in port ", process.env.PORT);
