@@ -1,8 +1,4 @@
 {
-<<<<<<< HEAD
-  "dependencies": {
-    "openai": "^6.24.0"
-=======
   "name": "backend",
   "version": "1.0.0",
   "main": "server.js",
@@ -15,6 +11,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "openai": "^6.24.0",
     "@google/genai": "^1.44.0",
     "@google/generative-ai": "^0.24.1",
     "bcrypt": "^6.0.0",
@@ -26,6 +23,5 @@
     "multer": "1.4.5-lts.1",
     "multer-storage-cloudinary": "^4.0.0",
     "socket.io": "^4.8.3"
->>>>>>> 6a6786c1b646f2fe01f460dc4ff9bc18dabe7060
   }
 }
