@@ -1,0 +1,355 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.wrap{max-width:500px;margin:0 auto;padding:1rem;font-family:var(--font-sans)}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+.trip-title{font-size:16px;font-weight:500;color:var(--color-text-primary)}
+.trip-sub{font-size:12px;color:var(--color-text-secondary);margin-top:2px}
+.phase-banner{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:var(--border-radius-md);margin-bottom:1rem;font-size:12px;font-weight:500}
+.phase-pre{background:#FAEEDA;color:#633806}
+.phase-live{background:#E1F5EE;color:#085041}
+.phase-done{background:#E6F1FB;color:#0C447C}
+.phase-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.phase-pre .phase-dot{background:#854F0B}
+.phase-live .phase-dot{background:#0F6E56}
+.phase-done .phase-dot{background:#185FA5}
+.tabs{display:flex;gap:5px;margin-bottom:1rem}
+.tab{flex:1;padding:8px 4px;font-size:12px;font-weight:500;text-align:center;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);cursor:pointer;background:transparent;color:var(--color-text-secondary);transition:all .15s;font-family:var(--font-sans)}
+.tab.on{background:var(--color-text-primary);color:var(--color-background-primary);border-color:var(--color-text-primary)}
+.sec{display:none}.sec.on{display:block}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.1rem;margin-bottom:.7rem}
+.fl{display:flex;align-items:center;gap:10px}
+.lbl{font-size:12px;color:var(--color-text-secondary);margin-bottom:4px}
+input,select{width:100%;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:7px 10px;font-size:13px;color:var(--color-text-primary);outline:none;margin-bottom:.65rem;font-family:var(--font-sans)}
+input:focus,select:focus{border-color:var(--color-border-primary)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:.65rem}
+.chip{padding:5px 10px;border:0.5px solid var(--color-border-tertiary);border-radius:20px;font-size:12px;cursor:pointer;color:var(--color-text-secondary);transition:all .15s}
+.chip.on{background:#E6F1FB;color:#0C447C;border-color:#85B7EB}
+.phase-chips{display:flex;gap:6px;margin-bottom:.65rem}
+.pchip{flex:1;padding:7px 6px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);font-size:12px;font-weight:500;cursor:pointer;text-align:center;color:var(--color-text-secondary);transition:all .15s}
+.pchip.pre.on{background:#FAEEDA;color:#633806;border-color:#EF9F27}
+.pchip.live.on{background:#E1F5EE;color:#085041;border-color:#5DCAA5}
+.abtn{width:100%;padding:9px;background:var(--color-text-primary);color:var(--color-background-primary);border:none;border-radius:var(--border-radius-md);font-size:13px;font-weight:500;cursor:pointer;font-family:var(--font-sans)}
+.abtn:active{transform:scale(.98)}
+.stat-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:.7rem}
+.stat{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.7rem .8rem}
+.stat-lbl{font-size:11px;color:var(--color-text-secondary);margin-bottom:3px}
+.stat-val{font-size:17px;font-weight:500;color:var(--color-text-primary)}
+.exp-item{display:flex;align-items:flex-start;gap:10px;padding:.7rem 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.exp-item:last-child{border-bottom:none}
+.exp-icon{width:32px;height:32px;border-radius:50%;background:var(--color-background-secondary);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.exp-body{flex:1;min-width:0}
+.exp-name{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.exp-meta{font-size:11px;color:var(--color-text-secondary);margin-top:2px}
+.exp-right{text-align:right;flex-shrink:0}
+.exp-amt{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.exp-by{font-size:11px;color:var(--color-text-secondary);margin-top:2px}
+.phase-pill{display:inline-block;font-size:10px;font-weight:500;padding:2px 7px;border-radius:20px;margin-top:3px}
+.pill-pre{background:#FAEEDA;color:#633806}
+.pill-live{background:#E1F5EE;color:#085041}
+.pill-mid{background:#FBEAF0;color:#72243E}
+.bal-row{display:flex;align-items:center;gap:8px;margin-bottom:.5rem}
+.av{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0}
+.bal-name{font-size:13px;font-weight:500;color:var(--color-text-primary);min-width:52px}
+.bar-wrap{flex:1;height:5px;background:var(--color-background-secondary);border-radius:3px;overflow:hidden}
+.bar-fill{height:100%;border-radius:3px}
+.bar-pos{background:#1D9E75}
+.bar-neg{background:#E24B4A}
+.bal-num{font-size:12px;min-width:64px;text-align:right;font-weight:500}
+.pos-txt{color:#0F6E56}.neg-txt{color:#A32D2D}
+.txn-row{display:flex;align-items:center;gap:8px;padding:.6rem 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.txn-row:last-child{border-bottom:none}
+.txn-mid{flex:1;font-size:12px;color:var(--color-text-secondary);text-align:center}
+.txn-amt{font-size:13px;font-weight:500;color:#A32D2D;min-width:60px;text-align:right}
+.pay-btn{font-size:11px;border:0.5px solid var(--color-border-secondary);background:transparent;color:var(--color-text-secondary);border-radius:var(--border-radius-md);padding:3px 9px;cursor:pointer;font-family:var(--font-sans);flex-shrink:0}
+.pay-btn:hover{background:var(--color-background-secondary)}
+.settled-tag{font-size:10px;background:#E1F5EE;color:#085041;padding:2px 8px;border-radius:20px;flex-shrink:0}
+.empty{text-align:center;color:var(--color-text-secondary);font-size:13px;padding:1.5rem 0}
+.section-lbl{font-size:11px;font-weight:500;color:var(--color-text-secondary);letter-spacing:.04em;margin-bottom:.5rem;padding-top:.25rem}
+.divider{height:0.5px;background:var(--color-border-tertiary);margin:.5rem 0}
+.mid-pay-row{display:flex;align-items:center;gap:8px;margin-bottom:.5rem}
+</style>
+
+<div class="wrap">
+  <div class="topbar">
+    <div>
+      <div class="trip-title">Goa Trip 2025</div>
+      <div class="trip-sub">5 friends · Dec 20–25</div>
+    </div>
+    <div id="phase-indicator" class="phase-banner phase-pre" style="margin-bottom:0;padding:5px 10px">
+      <div class="phase-dot"></div>
+      <span id="phase-label">Pre-trip</span>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab on" onclick="go('add')">+ Add</button>
+    <button class="tab" onclick="go('log')">Log</button>
+    <button class="tab" onclick="go('settle')">Settle Up</button>
+  </div>
+
+  <!-- ADD -->
+  <div class="sec on" id="sec-add">
+    <div class="card">
+      <div class="lbl">Phase</div>
+      <div class="phase-chips">
+        <div class="pchip pre on" id="pc-pre" onclick="selPhase('pre')">Pre-trip booking</div>
+        <div class="pchip live" id="pc-live" onclick="selPhase('live')">During trip</div>
+      </div>
+      <div class="lbl">Description</div>
+      <input type="text" id="i-desc" placeholder="e.g. Flight tickets, Hotel, Dinner…"/>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div>
+          <div class="lbl">Amount (₹)</div>
+          <input type="number" id="i-amt" placeholder="0" min="0"/>
+        </div>
+        <div>
+          <div class="lbl">Category</div>
+          <select id="i-cat">
+            <option value="✈">✈ Flight</option>
+            <option value="🏨">🏨 Hotel</option>
+            <option value="🍽">🍽 Food</option>
+            <option value="🚗">🚗 Transport</option>
+            <option value="🏄">🏄 Activity</option>
+            <option value="🛒">🛒 Shopping</option>
+          </select>
+        </div>
+      </div>
+      <div class="lbl">Paid by</div>
+      <select id="i-paid">
+        <option>Aarav</option><option>Priya</option><option>Rohan</option><option>Sneha</option><option>Dev</option>
+      </select>
+      <div class="lbl">Split with</div>
+      <div class="chips" id="split-chips"></div>
+      <button class="abtn" onclick="addExp()">Add Expense</button>
+    </div>
+
+    <div class="card" style="padding:.8rem 1.1rem">
+      <div class="lbl" style="margin-bottom:.5rem">Trip phase control</div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="abtn" style="background:var(--color-background-secondary);color:var(--color-text-primary);border:0.5px solid var(--color-border-secondary);font-size:12px;padding:7px" onclick="setTripPhase('pre')">Pre-trip</button>
+        <button class="abtn" style="background:#E1F5EE;color:#085041;border:0.5px solid #5DCAA5;font-size:12px;padding:7px" onclick="setTripPhase('live')">Trip started</button>
+        <button class="abtn" style="background:#E6F1FB;color:#0C447C;border:0.5px solid #85B7EB;font-size:12px;padding:7px" onclick="setTripPhase('done')">Trip ended</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOG -->
+  <div class="sec" id="sec-log">
+    <div class="stat-row">
+      <div class="stat"><div class="stat-lbl">Total spent</div><div class="stat-val" id="s-total">₹0</div></div>
+      <div class="stat"><div class="stat-lbl">Per person</div><div class="stat-val" id="s-per">₹0</div></div>
+      <div class="stat"><div class="stat-lbl">Expenses</div><div class="stat-val" id="s-count">0</div></div>
+    </div>
+    <div class="card">
+      <div class="section-lbl">Pre-trip bookings</div>
+      <div id="log-pre"><div class="empty" style="padding:.75rem 0">None yet</div></div>
+      <div class="divider"></div>
+      <div class="section-lbl" style="margin-top:.5rem">During trip</div>
+      <div id="log-live"><div class="empty" style="padding:.75rem 0">None yet</div></div>
+    </div>
+  </div>
+
+  <!-- SETTLE -->
+  <div class="sec" id="sec-settle">
+    <div class="card" style="margin-bottom:.7rem">
+      <div class="section-lbl">Balances (who is owed / owes)</div>
+      <div id="bal-sec"></div>
+    </div>
+    <div class="card" style="margin-bottom:.7rem">
+      <div class="section-lbl">Mid-trip settlements recorded</div>
+      <div id="mid-sec"><div class="empty" style="padding:.5rem 0">No early payments yet</div></div>
+    </div>
+    <div class="card">
+      <div class="section-lbl">Final settle up — minimum transfers</div>
+      <div id="txn-sec"><div class="empty" style="padding:.5rem 0">All settled!</div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const members=['Aarav','Priya','Rohan','Sneha','Dev'];
+const avBg=['#E1F5EE','#E6F1FB','#FAECE7','#FBEAF0','#FAEEDA'];
+const avTx=['#085041','#0C447C','#712B13','#72243E','#633806'];
+
+let tripPhase='pre';
+let addPhase='pre';
+let expenses=[
+  {id:1,desc:'Flight tickets (5)',amt:25000,paid:'Aarav',split:[...members],cat:'✈',phase:'pre'},
+  {id:2,desc:'Beach resort (3 nights)',amt:18000,paid:'Priya',split:[...members],cat:'🏨',phase:'pre'},
+  {id:3,desc:'Adventure package',amt:8000,paid:'Rohan',split:[...members],cat:'🏄',phase:'pre'},
+];
+let midPayments=[];
+let settledKeys=new Set();
+
+function av(m,sz){
+  const i=members.indexOf(m);
+  const s=sz||26;
+  return `<div class="av" style="width:${s}px;height:${s}px;background:${avBg[i]};color:${avTx[i]}">${m[0]}</div>`;
+}
+
+function initChips(){
+  const c=document.getElementById('split-chips');
+  c.innerHTML=members.map(m=>`<div class="chip on" data-m="${m}" onclick="this.classList.toggle('on')">${m}</div>`).join('');
+}
+
+function selPhase(p){
+  addPhase=p;
+  document.getElementById('pc-pre').classList.toggle('on',p==='pre');
+  document.getElementById('pc-live').classList.toggle('on',p==='live');
+}
+
+function setTripPhase(p){
+  tripPhase=p;
+  const pi=document.getElementById('phase-indicator');
+  const pl=document.getElementById('phase-label');
+  pi.className='phase-banner';
+  if(p==='pre'){pi.classList.add('phase-pre');pl.textContent='Pre-trip planning';}
+  else if(p==='live'){pi.classList.add('phase-live');pl.textContent='Trip is live!';}
+  else{pi.classList.add('phase-done');pl.textContent='Trip completed';}
+}
+
+function addExp(){
+  const desc=document.getElementById('i-desc').value.trim();
+  const amt=parseFloat(document.getElementById('i-amt').value);
+  const paid=document.getElementById('i-paid').value;
+  const cat=document.getElementById('i-cat').value;
+  const split=[...document.querySelectorAll('#split-chips .chip.on')].map(c=>c.dataset.m);
+  if(!desc||!amt||split.length===0)return;
+  expenses.push({id:Date.now(),desc,amt,paid,split,cat,phase:addPhase});
+  document.getElementById('i-desc').value='';
+  document.getElementById('i-amt').value='';
+  renderLog();renderSettle();go('log');
+}
+
+function fmt(n){return '₹'+Math.round(n).toLocaleString('en-IN')}
+
+function renderLog(){
+  const total=expenses.reduce((s,e)=>s+e.amt,0);
+  document.getElementById('s-total').textContent=fmt(total);
+  document.getElementById('s-per').textContent=fmt(total/members.length);
+  document.getElementById('s-count').textContent=expenses.length;
+
+  ['pre','live'].forEach(ph=>{
+    const list=expenses.filter(e=>e.phase===ph);
+    const el=document.getElementById('log-'+ph);
+    if(list.length===0){el.innerHTML='<div class="empty" style="padding:.75rem 0">None yet</div>';return;}
+    el.innerHTML=list.slice().reverse().map(e=>{
+      const share=Math.round(e.amt/e.split.length);
+      const pillCls=e.phase==='pre'?'pill-pre':'pill-live';
+      const pillTxt=e.phase==='pre'?'Pre-trip':'During trip';
+      return `<div class="exp-item">
+        <div class="exp-icon">${e.cat}</div>
+        <div class="exp-body">
+          <div class="exp-name">${e.desc}</div>
+          <div class="exp-meta">Split among ${e.split.length} · ${fmt(share)} each</div>
+          <div class="phase-pill ${pillCls}">${pillTxt}</div>
+        </div>
+        <div class="exp-right">
+          <div class="exp-amt">${fmt(e.amt)}</div>
+          <div class="exp-by">by ${e.paid}</div>
+        </div>
+      </div>`;
+    }).join('');
+  });
+}
+
+function computeBal(){
+  const bal={};
+  members.forEach(m=>bal[m]=0);
+  expenses.forEach(e=>{
+    const share=e.amt/e.split.length;
+    bal[e.paid]+=e.amt;
+    e.split.forEach(m=>bal[m]-=share);
+  });
+  midPayments.forEach(p=>{
+    bal[p.from]-=p.amt;
+    bal[p.to]+=p.amt;
+  });
+  return bal;
+}
+
+function computeTxns(bal){
+  const cr=[],db=[];
+  Object.entries(bal).forEach(([m,b])=>{
+    if(b>0.5)cr.push({m,b:Math.round(b)});
+    else if(b<-0.5)db.push({m,b:Math.round(-b)});
+  });
+  const txns=[];
+  let i=0,j=0;
+  const c=cr.map(x=>({...x})),d=db.map(x=>({...x}));
+  while(i<c.length&&j<d.length){
+    const a=Math.min(c[i].b,d[j].b);
+    txns.push({from:d[j].m,to:c[i].m,amt:a});
+    c[i].b-=a;d[j].b-=a;
+    if(c[i].b<1)i++;
+    if(d[j].b<1)j++;
+  }
+  return txns;
+}
+
+function renderSettle(){
+  const bal=computeBal();
+  const maxAbs=Math.max(...Object.values(bal).map(Math.abs),1);
+
+  document.getElementById('bal-sec').innerHTML=members.map((m,i)=>{
+    const b=bal[m]||0;
+    const w=Math.round(Math.abs(b)/maxAbs*100);
+    const pos=b>=0;
+    return `<div class="bal-row">
+      ${av(m)}
+      <div class="bal-name">${m}</div>
+      <div class="bar-wrap"><div class="bar-fill ${pos?'bar-pos':'bar-neg'}" style="width:${w}%"></div></div>
+      <div class="bal-num ${pos?'pos-txt':'neg-txt'}">${pos?'+':'-'}${fmt(Math.abs(b))}</div>
+    </div>`;
+  }).join('');
+
+  const mid=document.getElementById('mid-sec');
+  if(midPayments.length===0){
+    mid.innerHTML='<div class="empty" style="padding:.5rem 0">No early payments yet</div>';
+  } else {
+    mid.innerHTML=midPayments.map(p=>`
+      <div class="mid-pay-row">
+        ${av(p.from)} <span style="font-size:13px;font-weight:500;color:var(--color-text-primary)">${p.from}</span>
+        <span style="font-size:12px;color:var(--color-text-secondary);flex:1;text-align:center">paid ${p.to}</span>
+        ${av(p.to)} <span style="font-size:13px;font-weight:500;color:#0F6E56">${fmt(p.amt)}</span>
+        <span class="settled-tag">Done</span>
+      </div>`).join('');
+  }
+
+  const txns=computeTxns(bal);
+  const active=txns.filter(t=>!settledKeys.has(t.from+'|'+t.to+'|'+t.amt));
+  const txnEl=document.getElementById('txn-sec');
+  if(active.length===0){
+    txnEl.innerHTML='<div class="empty" style="padding:.5rem 0">All settled up!</div>';
+    return;
+  }
+  txnEl.innerHTML=active.map(t=>{
+    const key=`${t.from}|${t.to}|${t.amt}`;
+    return `<div class="txn-row">
+      ${av(t.from,28)}
+      <div class="txn-mid">${t.from} → ${t.to}</div>
+      ${av(t.to,28)}
+      <div class="txn-amt">${fmt(t.amt)}</div>
+      <button class="pay-btn" onclick="settle('${key}','${t.from}','${t.to}',${t.amt})">Mark paid</button>
+    </div>`;
+  }).join('');
+}
+
+function settle(key,from,to,amt){
+  settledKeys.add(key);
+  midPayments.push({from,to,amt});
+  renderSettle();
+}
+
+function go(tab){
+  ['add','log','settle'].forEach((t,i)=>{
+    document.querySelectorAll('.tab')[i].classList.toggle('on',t===tab);
+    document.getElementById('sec-'+t).classList.toggle('on',t===tab);
+  });
+  if(tab==='log')renderLog();
+  if(tab==='settle')renderSettle();
+}
+
+initChips();renderLog();renderSettle();
+</script>
