@@ -161,4 +161,30 @@ const getTrips = async (req, res) => {
     }
 }
 
-module.exports = { createTrip, updateTrip, deleteTrip, addMembers, deleteMembers, getAllMembers, getTrips };
+const addImageToTrip = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { url, public_id } = req.body;
+
+        const trip = await Trip.findById(id);
+        if (!trip) {
+            return res.status(404).send({ message: "Trip not found" });
+        }
+
+        const isCreator = trip.createdBy.toString() === req.user.id;
+        const isMember = trip.members.some(m => m.toString() === req.user.id);
+
+        if (!isCreator && !isMember) {
+            return res.status(403).send({ message: "User not authorized to add images to this trip" });
+        }
+
+        trip.images.push({ url, public_id });
+        await trip.save();
+
+        res.status(200).send({ message: "Image added to trip successfully", trip });
+    } catch (e) {
+        res.status(500).send({ message: "Server side error", error: e.message });
+    }
+};
+
+module.exports = { createTrip, updateTrip, deleteTrip, addMembers, deleteMembers, getAllMembers, getTrips, addImageToTrip };

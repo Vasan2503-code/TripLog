@@ -13,14 +13,15 @@ const Navbar = () => {
     { label: 'Dashboard', icon: <LayoutDashboard size={20} />, path: '/dashboard' },
     { label: 'Expense Splitter', icon: <Plane size={20} />, path: '/expense-splitter' },
     { label: 'Photo Map', icon: <MapPin size={20} />, path: '/photo-map' },
-    { label: 'Settings', icon: <Settings size={20} />, path: '/settings' },
   ];
 
   return (
     <aside className="fixed left-0 top-0 h-screen w-64 bg-[#fdfaf6] flex flex-col justify-between py-8 border-r border-gray-100/50 shadow-sm z-50">
       <div>
         <div className="px-8 pb-8 flex items-center cursor-pointer" onClick={() => navigate('/')}>
-          <h1 className="text-xl font-bold tracking-tight text-gray-900">Wanderlust Journal</h1>
+          <h1 className="text-3xl font-black tracking-tighter bg-gradient-to-r from-blue-600 via-purple-500 to-pink-500 text-transparent bg-clip-text drop-shadow-sm">
+            TRIPLOG
+          </h1>
         </div>
 
         {/* Profile Section */}

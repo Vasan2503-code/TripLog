@@ -12,6 +12,7 @@ router.post("/add-members/:id", middleware, tripController.addMembers);
 router.get("/get-members/:id", middleware, tripController.getAllMembers);
 router.delete("/delete-members/:id", middleware, tripController.deleteMembers);
 router.get("/chat/:tripId", middleware, chatController.getChatHistory);
+router.post("/:id/images", middleware, tripController.addImageToTrip);
 router.get("/", middleware, tripController.getTrips);
 
 module.exports = router;

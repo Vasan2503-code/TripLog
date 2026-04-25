@@ -32,6 +32,16 @@ const tripSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"
         }
+    ],
+    images: [
+        {
+            url: String,
+            public_id: String,
+            uploadedAt: {
+                type: Date,
+                default: Date.now
+            }
+        }
     ]
 })
 

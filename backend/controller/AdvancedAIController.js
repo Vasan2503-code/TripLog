@@ -76,5 +76,6 @@ const getAdvancedTripSuggestions = async (req, res) => {
         });
     }
 };
+// console.log("API KEY:", process.env.GEMINI_AI_API_KEY);
 
 module.exports = getAdvancedTripSuggestions;

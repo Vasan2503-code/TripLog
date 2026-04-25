@@ -102,10 +102,26 @@ const TripDetails = () => {
         }
       });
       
-      toast.success('Image Uploaded!', { id: toastId });
-      // Depending on backend logic, we either save this to the trip or just show success
+      const { url, public_id } = data.data;
+      
+      await axios.post(`/trip/${id}/images`, { url, public_id });
+
+      toast.success('Image Uploaded to Trip!', { id: toastId });
     } catch (error) {
       toast.error('Upload failed', { id: toastId });
+    }
+  };
+
+  const handleDeleteTrip = async () => {
+    if (!window.confirm('Are you sure you want to delete this trip? This action cannot be undone.')) return;
+    
+    const toastId = toast.loading('Deleting trip...');
+    try {
+      await axios.delete(`/trip/delete-trip/${id}`);
+      toast.success('Trip deleted successfully', { id: toastId });
+      navigate('/dashboard');
+    } catch (error) {
+      toast.error('Failed to delete trip', { id: toastId });
     }
   };
 
@@ -170,7 +186,20 @@ const TripDetails = () => {
         <div>
           <div className="flex items-center space-x-4 mb-3">
             <h1 className="text-4xl font-serif italic text-gray-900">{trip.title}</h1>
-            <span className="bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Active</span>
+            {new Date(trip.date) < new Date() ? (
+              <span className="bg-gray-100 text-gray-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Completed</span>
+            ) : (
+              <span className="bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Active</span>
+            )}
+            {isAdmin && (
+              <button 
+                onClick={handleDeleteTrip}
+                className="ml-auto flex items-center justify-center p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors"
+                title="Delete Trip"
+              >
+                <Trash2 size={20} />
+              </button>
+            )}
           </div>
           
           <div className="flex items-center text-gray-500 space-x-6 mb-4 text-sm">
