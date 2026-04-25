@@ -4,7 +4,7 @@ import { MapPin, Calendar, Image as ImageIcon, Map, Trash2, Settings2, MessageSq
 import AIBot from '../components/AIBot';
 import ChatModal from '../components/ChatModal';
 import ExpenseSplitter from '../components/ExpenseSplitter';
-import axios from '../api/axios';
+import axios, { BACKEND_URL } from '../api/axios';
 import { io } from 'socket.io-client';
 import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
@@ -26,7 +26,7 @@ const TripDetails = () => {
 
   useEffect(() => {
     if (!id) return;
-    const newSocket = io('http://localhost:3000');
+    const newSocket = io(BACKEND_URL);
     setSocket(newSocket);
     
     newSocket.emit('join-trip', id);

@@ -3,7 +3,7 @@ import { Send, X, ShieldAlert } from 'lucide-react';
 import { io } from 'socket.io-client';
 import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
-import axios from '../api/axios';
+import axios, { BACKEND_URL } from '../api/axios';
 
 const ChatModal = ({ isOpen, onClose, tripId }) => {
   const [messages, setMessages] = useState([]);
@@ -26,7 +26,7 @@ const ChatModal = ({ isOpen, onClose, tripId }) => {
       fetchHistory();
 
       // Connect to Socket.io backend
-      const newSocket = io('http://localhost:3000');
+      const newSocket = io(BACKEND_URL);
       setSocket(newSocket);
 
     // Join specific trip room

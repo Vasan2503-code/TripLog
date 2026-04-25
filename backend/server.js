@@ -3,7 +3,7 @@ require("dotenv").config();
 const cors = require('cors');
 const app = express();
 app.use(cors({
-    origin: 'http://localhost:5173', // Update this if Vite runs on a different port
+    origin: ['http://localhost:5173', 'https://trip-log-4w6o.vercel.app'], 
     credentials: true,
 }));
 const connectDB = require("./config/db");

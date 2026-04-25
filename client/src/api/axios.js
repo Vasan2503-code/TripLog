@@ -1,8 +1,13 @@
 import axiosOriginal from 'axios';
 
+// Configure the backend URL based on the environment
+export const BACKEND_URL = import.meta.env.MODE === 'development' 
+  ? 'http://localhost:3000' 
+  : 'https://triplog-x00a.onrender.com';
+
 // Configure Axios
 const axios = axiosOriginal.create({
-  baseURL: 'http://localhost:3000',
+  baseURL: BACKEND_URL,
   withCredentials: true,
 });
 
