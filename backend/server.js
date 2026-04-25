@@ -3,7 +3,7 @@ require("dotenv").config();
 const cors = require('cors');
 const app = express();
 app.use(cors({
-    origin: ['http://localhost:5173', 'https://trip-log-4w6o.vercel.app'], 
+    origin: ['http://localhost:5173', 'https://trip-log-4w6o.vercel.app', 'https://trip-log-one.vercel.app'], 
     credentials: true,
 }));
 const connectDB = require("./config/db");
