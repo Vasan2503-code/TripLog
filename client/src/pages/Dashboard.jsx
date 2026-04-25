@@ -32,9 +32,9 @@ const Dashboard = () => {
   return (
     <div className="max-w-6xl mx-auto pb-12">
       {/* Header Area */}
-      <div className="flex justify-between items-end mb-10 pt-4">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-6 mb-10 pt-4">
         <div>
-          <h1 className="text-[2.5rem] font-bold text-gray-900 leading-tight tracking-tight">
+          <h1 className="text-3xl md:text-[2.5rem] font-bold text-gray-900 leading-tight tracking-tight">
             Welcome back, {user?.name || 'Explorer'}!
           </h1>
           <p className="text-xl text-gray-800 font-medium mt-1">
@@ -44,7 +44,7 @@ const Dashboard = () => {
         
         <button 
           onClick={() => setIsModalOpen(true)}
-          className="flex items-center space-x-2 bg-[#90caf9] hover:bg-blue-400 text-white px-6 py-3 rounded-xl font-medium transition-all shadow-md shadow-blue-200 transform hover:-translate-y-0.5"
+          className="flex items-center justify-center space-x-2 bg-[#90caf9] hover:bg-blue-400 text-white px-6 py-3 rounded-xl font-medium transition-all shadow-md shadow-blue-200 transform hover:-translate-y-0.5 w-full md:w-auto"
         >
           <Plus size={20} />
           <span>New Trip</span>
